@@ -34,8 +34,9 @@
                 v-masonry
                 transition-duration="3s" item-selector=".worker-item"
       >
-        <v-flex class="worker-item"
-                v-for="(item, name) in workers"
+        <v-flex xs12 sm6 md4 xl3
+                class="worker-item"
+                v-for="(item, name, index) in workers"
                 :key="name"
                 v-masonry-tile
         >
@@ -55,7 +56,7 @@
 
 <script>
   import _ from 'lodash'
-  import {flow, filter, size} from 'lodash/fp'
+  import {flow, mapValues, values} from 'lodash/fp'
 
   import CrawlerWorker from '~/components/CrawlerWorker'
   import {WORKER_STATUS} from '~/components/consts'
@@ -100,20 +101,22 @@
         return _.some(this.workers, item => item.status === WORKER_STATUS.WORKING)
       },
       workerStatus() {
-        return _.values
+        return flow(
+          mapValues(item => item.status),
+          values
+        )(this.workers)
       },
       notWorkeringRate() {
         // 返回一个0-100的数字，表示不在WORKING状态的Worker的数量
-        const cnt = _.size(this.workers)
-        const notWorking = flow(
-          filter(item => item.status !== WORKER_STATUS.WORKING),
-          size
-        )(this.workers)
+        const cnt = this.workerStatus.length
+        // 这一条 lint rule 绝对有 bug
+        // eslint-disable-next-line lodash/prefer-compact
+        const notWorking = _.filter(item => item !== WORKER_STATUS.WORKING).length
         return notWorking / cnt * 100
       },
     },
     watch: {
-      workers() {
+      workerStatus() {
         this.$redrawVueMasonry()
       },
     },
@@ -127,6 +130,6 @@
 
 <style scoped>
   .worker-item {
-    width: 300px;
+    /*width: 300px;*/
   }
 </style>
