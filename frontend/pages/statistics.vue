@@ -29,20 +29,27 @@
         />
       </v-flex>
     </v-layout>
-    <v-layout row wrap>
-      <v-flex xs12 sm6 md4 xl3
-              v-for="(item, name) in workers"
-              :key="name">
-        <crawler-worker
-          :username="username"
-          :worker-name="name"
-          :solved.sync="item.solved"
-          :submissions.sync="item.submissions"
-          :status.sync="item.status"
-          :func="item.func"
-        />
-      </v-flex>
-    </v-layout>
+    <no-ssr>
+      <v-layout row wrap
+                v-masonry
+                transition-duration="3s" item-selector=".worker-item"
+      >
+        <v-flex class="worker-item"
+                v-for="(item, name) in workers"
+                :key="name"
+                v-masonry-tile
+        >
+          <crawler-worker
+            :username="username"
+            :worker-name="name"
+            :solved.sync="item.solved"
+            :submissions.sync="item.submissions"
+            :status.sync="item.status"
+            :func="item.func"
+          />
+        </v-flex>
+      </v-layout>
+    </no-ssr>
   </v-container>
 </template>
 
@@ -53,10 +60,13 @@
   import CrawlerWorker from '~/components/CrawlerWorker'
   import {WORKER_STATUS} from '~/components/consts'
 
+  import NoSSR from 'vue-no-ssr'
+
   export default {
     name: 'Statistics',
     components: {
       CrawlerWorker,
+      NoSSR,
     },
     data() {
       return {
@@ -73,6 +83,11 @@
         func: func,
       }))
     },
+    mounted() {
+      if (_.isFunction(this.$redrawVueMasonry)) {
+        this.$redrawVueMasonry()
+      }
+    },
     computed: {
       allSolved() {
         return _.reduce(this.workers, (sum, val) => sum + val.solved, 0)
@@ -84,6 +99,9 @@
         // 是否还有worker正在工作
         return _.some(this.workers, item => item.status === WORKER_STATUS.WORKING)
       },
+      workerStatus() {
+        return _.values
+      },
       notWorkeringRate() {
         // 返回一个0-100的数字，表示不在WORKING状态的Worker的数量
         const cnt = _.size(this.workers)
@@ -92,6 +110,11 @@
           size
         )(this.workers)
         return notWorking / cnt * 100
+      },
+    },
+    watch: {
+      workers() {
+        this.$redrawVueMasonry()
       },
     },
     methods: {
@@ -103,5 +126,7 @@
 </script>
 
 <style scoped>
-
+  .worker-item {
+    width: 300px;
+  }
 </style>
