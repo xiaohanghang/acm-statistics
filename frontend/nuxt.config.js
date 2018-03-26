@@ -22,6 +22,7 @@ module.exports = {
   plugins: [
     '~/plugins/vuetify.js',
     '~/plugins/debug.js',
+    { src: '~/plugins/vue-masonry', ssr: false },
   ],
   css: [
     '~/assets/style/app.styl',

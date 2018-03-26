@@ -22,6 +22,8 @@
     "lodash": "^4.17.5",
     "nuxt": "^1.0.0",
     "superagent": "^3.8.2",
+    "vue-masonry": "^0.10.17",
+    "vue-no-ssr": "^0.2.2",
     "vuetify": "^1.0.0"
   },
   "devDependencies": {
