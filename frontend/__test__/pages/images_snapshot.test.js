@@ -27,7 +27,9 @@ beforeAll(async () => {
 
 test('frontpage', async () => {
   const page = await browser.newPage()
-  await page.goto('http://localhost:4000/')
+  await page.goto('http://localhost:4000/', {
+    waitUntil: 'networkidle',
+  })
   await page.setViewport({width: 1920, height: 1080})
   const image = await page.screenshot()
 
