@@ -49,6 +49,6 @@ for (let path of testPaths) {
 }
 
 // Close the Nuxt server
-afterAll('Closing server', () => {
+afterAll(() => {
   nuxt.close()
 })
