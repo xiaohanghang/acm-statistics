@@ -90,10 +90,13 @@ module.exports = {
   },
   proxy: [
     'http://localhost:12001/api/crawlers',
+    'http://localhost:12005/api/TokenAuth',
+    'http://localhost:12005/api/services',
   ],
   modules: [
     '@nuxtjs/proxy',
     '~/modules/crawlerLoader',
     '@nuxtjs/component-cache',
+    ['~/modules/abp', {url: 'http://localhost:12005/AbpServiceProxies/GetAll?type=axios'}],
   ],
 }

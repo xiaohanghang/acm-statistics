@@ -12,3 +12,6 @@
 
 # coverage
 /coverage
+
+# 模板文件
+/modules/abp/plugin.template.js
