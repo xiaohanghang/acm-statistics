@@ -33,6 +33,7 @@
         </v-btn>
         <span>Fork me on Github!</span>
       </v-tooltip>
+      <user-status/>
     </v-toolbar>
     <v-content>
       <v-container>
@@ -48,7 +49,12 @@
 </template>
 
 <script>
+  import UserStatus from '~/components/UserStatus'
+ 
   export default {
+    components: {
+      UserStatus,
+    },
     data() {
       return {
         drawer: true,

@@ -11,6 +11,7 @@
         </v-btn>
         <span>Fork me on Github!</span>
       </v-tooltip>
+      <user-status/>
     </v-toolbar>
     <v-content>
       <section>
@@ -215,8 +216,14 @@
 </template>
 
 <script>
+  import UserStatus from '~/components/UserStatus'
+
   export default {
+    components: {UserStatus},
     layout: 'none',
+    comments: {
+      UserStatus,
+    },
     data() {
       return {
         dialog: false,
