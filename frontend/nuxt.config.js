@@ -49,6 +49,7 @@ module.exports = {
     },
     vendor: [
       '~/plugins/vuetify.js',
+      'js-cookie',
     ],
     extractCSS: true,
     /*
