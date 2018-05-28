@@ -23,6 +23,8 @@ import {
   VParallax,
   VDialog,
   VChip,
+  VCheckbox,
+  VAlert,
 } from 'vuetify'
 
 Vue.use(Vuetify, {
@@ -46,6 +48,8 @@ Vue.use(Vuetify, {
     VParallax,
     VDialog,
     VChip,
+    VCheckbox,
+    VAlert,
   },
   options: {
     minifyTheme: function (val) {
